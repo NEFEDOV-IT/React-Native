@@ -24,18 +24,23 @@ const StyledButton: FC<IPropsButton> = ({
   disabled,
   ...props
 }) => {
+  const textVariant = (() => {
+    if (size === "large") return "heading";
+    return "small";
+  })();
   return (
     <TouchableOpacity
       style={[
         styles.base,
         disabled ? styles.disabled : null,
         size === "small" ? styles.small : null,
+        size === "large" ? styles.large : null,
         variant === "delete" ? styles.delete : null,
       ]}
       disabled={disabled}
       {...props}
     >
-      {label && <StyledText>{label}</StyledText>}
+      {label && <StyledText variant={textVariant}>{label}</StyledText>}
       {icon && (
         <StyledIonic name={icon} size={14} color={COLORS.PRIMARY_TEXT} />
       )}
@@ -59,7 +64,9 @@ const styles = StyleSheet.create({
   },
   small: {
     paddingHorizontal: 12,
-    paddingVertical: 12,
+  },
+  large: {
+    paddingHorizontal: 30,
   },
   delete: {
     backgroundColor: COLORS.PRIMARY_RED,

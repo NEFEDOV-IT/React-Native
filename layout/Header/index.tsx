@@ -11,8 +11,8 @@ export const Header: FC<IHeaderProps> = ({ totalTodos, completedTodos }) => {
   return (
     <View style={styles.container}>
       <View style={styles.headerMainContent}>
-        <StyledText>Todo app</StyledText>
-        <StyledText>March 15, 2025</StyledText>
+        <StyledText variant={"heading"}>Todo app</StyledText>
+        <StyledText variant={"subtitle"}>March 15, 2025</StyledText>
       </View>
       <StyledText>
         Completed {completedTodos} / {totalTodos}

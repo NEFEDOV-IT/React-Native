@@ -36,7 +36,12 @@ const TodoCreator: FC<IProps> = ({ onAddTodo }) => {
         placeholderTextColor={COLORS.PLACEHOLDER}
         isError={inputError}
       />
-      <StyledButton label={"+"} onPress={onPressAdd} disabled={inputError} />
+      <StyledButton
+        label={"+"}
+        onPress={onPressAdd}
+        disabled={inputError}
+        size={"large"}
+      />
     </View>
   );
 };
