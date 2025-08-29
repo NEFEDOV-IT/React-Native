@@ -6,12 +6,38 @@ import { COLORS } from "@/constants/ui";
 import StyledButton from "@/components/StyledButton";
 import StyledCheckbox from "@/components/StyledCheckbox";
 
-export const Todo: FC<ITodo> = ({ title, isCompleted }) => {
+interface ITodoProps extends ITodo {
+  onCheckTodo: (todo: ITodo["id"]) => void;
+  onDeleteTodo: (todo: ITodo["id"]) => void;
+  onUpdateTitle: (todo: ITodo["id"], title: ITodo["title"]) => void;
+}
+
+export const Todo: FC<ITodoProps> = ({
+  title,
+  id,
+  isCompleted,
+  onCheckTodo,
+  onUpdateTitle,
+  onDeleteTodo,
+}) => {
+  const onPressCheck = () => {
+    onCheckTodo(id);
+  };
+
+  const onPressDelete = () => {
+    onDeleteTodo(id);
+  };
+
+  const onPressUpdate = () => {
+    onUpdateTitle(id, title);
+  };
+
   return (
     <View style={[styles.container]}>
       <View style={styles.checkTitleContainer}>
-        <StyledCheckbox checked={isCompleted} onCheck={() => {}} />
+        <StyledCheckbox checked={isCompleted} onCheck={onPressCheck} />
         <StyledText
+          onPress={onPressCheck}
           style={[
             { textDecorationLine: isCompleted ? "line-through" : "none" },
           ]}
@@ -21,7 +47,12 @@ export const Todo: FC<ITodo> = ({ title, isCompleted }) => {
       </View>
       <View style={styles.controlsContainer}>
         <StyledButton icon={"pencil"} size={"small"} />
-        <StyledButton icon={"trash"} size={"small"} variant={"delete"} />
+        <StyledButton
+          icon={"trash"}
+          size={"small"}
+          variant={"delete"}
+          onPress={onPressDelete}
+        />
       </View>
     </View>
   );

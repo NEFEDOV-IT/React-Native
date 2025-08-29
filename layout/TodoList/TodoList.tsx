@@ -6,8 +6,16 @@ import { Todo } from "@/layout/Todo/Todo";
 
 interface IPropsTodos {
   todos: ITodo[];
+  onCheckTodo: (todo: ITodo["id"]) => void;
+  onDeleteTodo: (todo: ITodo["id"]) => void;
+  onUpdateTitle: (todo: ITodo["id"], title: ITodo["title"]) => void;
 }
-export const TodoList: FC<IPropsTodos> = ({ todos }) => {
+export const TodoList: FC<IPropsTodos> = ({
+  todos,
+  onCheckTodo,
+  onUpdateTitle,
+  onDeleteTodo,
+}) => {
   return (
     <View>
       <FlatList
@@ -18,6 +26,9 @@ export const TodoList: FC<IPropsTodos> = ({ todos }) => {
             title={item.title}
             isCompleted={item.isCompleted}
             id={item.id}
+            onCheckTodo={onCheckTodo}
+            onUpdateTitle={onUpdateTitle}
+            onDeleteTodo={onDeleteTodo}
           />
         )}
       />

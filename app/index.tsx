@@ -27,8 +27,24 @@ const defaultTodos: ITodo[] = [
 export default function Index() {
   const [todos, setTodos] = useState<ITodo[]>(defaultTodos);
 
-  const addTodo = (title: ITodo["title"]) => {
+  const onAddTodo = (title: ITodo["title"]) => {
     setTodos([...todos, { id: todos.length + 1, title, isCompleted: false }]);
+  };
+
+  const onDeleteTodo = (id: ITodo["id"]) => {
+    setTodos(todos.filter((todo) => todo.id !== id));
+  };
+
+  const onCheckTodo = (id: ITodo["id"]) => {
+    setTodos(
+      todos.map((todo) =>
+        todo.id === id ? { ...todo, isCompleted: !todo.isCompleted } : todo,
+      ),
+    );
+  };
+
+  const onUpdateTitle = (id: ITodo["id"], title: ITodo["title"]) => {
+    setTodos(todos.map((todo) => (todo.id === id ? { ...todo, title } : todo)));
   };
 
   const completedTodos = todos.filter((item) => item.isCompleted);
@@ -40,8 +56,13 @@ export default function Index() {
         totalTodos={todos.length}
         completedTodos={completedTodos.length}
       />
-      <TodoCreator onAddTodo={addTodo} />
-      <TodoList todos={todos} />
+      <TodoCreator onAddTodo={onAddTodo} />
+      <TodoList
+        todos={todos}
+        onCheckTodo={onCheckTodo}
+        onDeleteTodo={onDeleteTodo}
+        onUpdateTitle={onUpdateTitle}
+      />
     </View>
   );
 }
