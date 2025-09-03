@@ -5,50 +5,17 @@ import { useState } from "react";
 import { ITodo } from "@/types/todo";
 import { TodoList } from "@/layout/TodoList/TodoList";
 import TodoCreator from "@/layout/TodoCreator";
-
-const defaultTodos: ITodo[] = [
-  {
-    id: 1,
-    title: "Buy Milk",
-    isCompleted: false,
-  },
-  {
-    id: 2,
-    title: "Buy Car",
-    isCompleted: true,
-  },
-  {
-    id: 3,
-    title: "Buy Bread",
-    isCompleted: false,
-  },
-];
+import { useTodo } from "@/hooks/useTodo";
 
 export default function Index() {
-  const [todos, setTodos] = useState<ITodo[]>(defaultTodos);
-
-  const onAddTodo = (title: ITodo["title"]) => {
-    setTodos([...todos, { id: todos.length + 1, title, isCompleted: false }]);
-  };
-
-  const onDeleteTodo = (id: ITodo["id"]) => {
-    setTodos(todos.filter((todo) => todo.id !== id));
-  };
-
-  const onCheckTodo = (id: ITodo["id"]) => {
-    setTodos(
-      todos.map((todo) =>
-        todo.id === id ? { ...todo, isCompleted: !todo.isCompleted } : todo,
-      ),
-    );
-  };
-
-  const onUpdateTitle = (id: ITodo["id"], title: ITodo["title"]) => {
-    setTodos(todos.map((todo) => (todo.id === id ? { ...todo, title } : todo)));
-  };
-
-  const completedTodos = todos.filter((item) => item.isCompleted);
-
+  const {
+    todos,
+    completedTodos,
+    onDeleteTodo,
+    onCheckTodo,
+    onAddTodo,
+    onUpdateTitle,
+  } = useTodo();
   return (
     <View style={styles.container}>
       <StatusBar barStyle="dark-content" />

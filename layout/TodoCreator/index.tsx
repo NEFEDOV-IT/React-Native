@@ -1,4 +1,4 @@
-import { StyleSheet, View } from "react-native";
+import { Keyboard, StyleSheet, View } from "react-native";
 import { ITodo } from "@/types/todo";
 import { FC, useEffect, useState } from "react";
 import StyledButton from "@/components/StyledButton";
@@ -17,6 +17,7 @@ const TodoCreator: FC<IProps> = ({ onAddTodo }) => {
       setInputError(true);
       return;
     }
+    Keyboard.dismiss();
     onAddTodo(text);
     setText("");
   };

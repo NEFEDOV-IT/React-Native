@@ -1,10 +1,12 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import { ITodo } from "@/types/todo";
 import { StyledText } from "@/components/StyledText";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, Vibration, View } from "react-native";
 import { COLORS } from "@/constants/ui";
 import StyledButton from "@/components/StyledButton";
 import StyledCheckbox from "@/components/StyledCheckbox";
+import EditTodoModal from "@/layout/Modals/EditTodoModal";
+import DeleteTodoModal from "@/layout/Modals/DeleteTodoModal";
 
 interface ITodoProps extends ITodo {
   onCheckTodo: (todo: ITodo["id"]) => void;
@@ -20,16 +22,24 @@ export const Todo: FC<ITodoProps> = ({
   onUpdateTitle,
   onDeleteTodo,
 }) => {
+  const [isEditModal, setIsEditModal] = useState<boolean>(false);
+  const [isDeleteModal, setIsDeleteModal] = useState<boolean>(false);
+
   const onPressCheck = () => {
     onCheckTodo(id);
   };
 
   const onPressDelete = () => {
-    onDeleteTodo(id);
+    setIsDeleteModal(true);
   };
 
-  const onPressUpdate = () => {
-    onUpdateTitle(id, title);
+  const confirmDelete = () => {
+    onDeleteTodo(id);
+    Vibration.vibrate(50);
+  };
+
+  const onPressEdit = () => {
+    setIsEditModal(true);
   };
 
   return (
@@ -46,12 +56,23 @@ export const Todo: FC<ITodoProps> = ({
         </StyledText>
       </View>
       <View style={styles.controlsContainer}>
-        <StyledButton icon={"pencil"} size={"small"} />
+        <StyledButton icon={"pencil"} size={"small"} onPress={onPressEdit} />
+        <EditTodoModal
+          isOpen={isEditModal}
+          onClose={() => setIsEditModal(false)}
+          onUpdateTodo={(title) => onUpdateTitle(id, title)}
+          title={title}
+        />
         <StyledButton
           icon={"trash"}
           size={"small"}
           variant={"delete"}
           onPress={onPressDelete}
+        />
+        <DeleteTodoModal
+          isOpen={isDeleteModal}
+          onClose={() => setIsDeleteModal(false)}
+          onDeleteTodo={confirmDelete}
         />
       </View>
     </View>

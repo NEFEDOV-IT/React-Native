@@ -13,7 +13,7 @@ interface IPropsButton extends TouchableOpacityProps {
   label?: string;
   icon?: ComponentProps<typeof Ionicons>["name"];
   size?: "default" | "large" | "small";
-  variant?: "primary" | "delete";
+  variant?: "primary" | "secondary" | "delete";
   disabled?: boolean;
 }
 const StyledButton: FC<IPropsButton> = ({
@@ -36,6 +36,7 @@ const StyledButton: FC<IPropsButton> = ({
         size === "small" ? styles.small : null,
         size === "large" ? styles.large : null,
         variant === "delete" ? styles.delete : null,
+        variant === "secondary" ? styles.secondary : null,
       ]}
       disabled={disabled}
       {...props}
@@ -70,6 +71,10 @@ const styles = StyleSheet.create({
   },
   delete: {
     backgroundColor: COLORS.PRIMARY_RED,
+  },
+  secondary: {
+    backgroundColor: COLORS.SECONDARY_BACKGROUND,
+    borderColor: COLORS.PRIMARY_ACTIVE_BUTTON,
   },
 });
 
